@@ -1,0 +1,84 @@
+CREATE DATABASE establecimientosBC_db;
+USE establecimientosBC_db;
+
+
+CREATE TABLE establecimientos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom_estab VARCHAR(255) NOT NULL,
+    latitud DECIMAL(10,6) NOT NULL,
+    longitud DECIMAL(10,6) NOT NULL,
+    ubicacion POINT NOT NULL,
+    SPATIAL INDEX (ubicacion)
+);
+
+
+CREATE TABLE direcciones (
+    id_establecimiento INT PRIMARY KEY,
+    raz_social VARCHAR(255) NOT NULL,
+    cod_postal INT,
+    id_actividad INT,
+    id_tipo_vialidad TINYINT NOT NULL,
+    nom_vial VARCHAR(100) NOT NULL,
+    numero_ext VARCHAR(20),
+    edificio VARCHAR(100),
+    edificio_e VARCHAR(100),
+    id_tipo_asent TINYINT NOT NULL,
+    nomb_asent VARCHAR(100) NOT NULL,
+    id_municipio TINYINT NOT NULL,
+    id_localidad SMALLINT NOT NULL,
+    fecha_alta DATE NOT NULL,
+    FOREIGN KEY (id_establecimiento) REFERENCES establecimientos(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_actividad) REFERENCES actividades(id_actividad) ON DELETE SET NULL,
+    FOREIGN KEY (id_tipo_vialidad) REFERENCES vialidades(id_tipo_vialidad) ON DELETE RESTRICT,
+    FOREIGN KEY (id_municipio) REFERENCES municipios(id_municipio) ON DELETE RESTRICT,
+    FOREIGN KEY (id_localidad) REFERENCES localidades(id_localidad) ON DELETE RESTRICT
+);
+
+
+CREATE TABLE contactos (
+    id_establecimiento INT PRIMARY KEY,
+    telefono JSON NOT NULL,
+    correoelec JSON NOT NULL,
+    www JSON NOT NULL,
+    nivel_contacto TINYINT,
+    FOREIGN KEY (id_establecimiento) REFERENCES establecimientos(id) ON DELETE CASCADE
+);
+
+-- Tabla de Localidades (Diccionario)
+CREATE TABLE localidades (
+    id_localidad SMALLINT AUTO_INCREMENT PRIMARY KEY,
+    localidad VARCHAR(100) NOT NULL
+);
+
+-- Tabla de Actividades (Diccionario)
+CREATE TABLE actividades (
+    id_actividad INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_act VARCHAR(150) NOT NULL
+);
+
+-- Tabla de Vialidades (Diccionario)
+CREATE TABLE vialidades (
+    id_tipo_vialidad TINYINT AUTO_INCREMENT PRIMARY KEY,
+    tipo_vialidad VARCHAR(50) NOT NULL
+);
+
+-- Tabla de Municipios (Diccionario)
+CREATE TABLE municipios (
+    id_municipio TINYINT AUTO_INCREMENT PRIMARY KEY,
+    municipio VARCHAR(50) NOT NULL
+);
+
+-- Tabla de Asentamientos (Diccionario)
+CREATE TABLE asentamientos (
+    id_tipo_asent TINYINT AUTO_INCREMENT PRIMARY KEY,
+    tipo_asent VARCHAR(50) NOT NULL
+);
+
+ALTER TABLE direcciones
+ADD CONSTRAINT fk_direcciones_asentamientos
+FOREIGN KEY (id_tipo_asent) REFERENCES asentamientos(id_tipo_asent)
+ON DELETE RESTRICT
+ON UPDATE CASCADE;
+
+
+
