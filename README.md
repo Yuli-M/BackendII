@@ -1,7 +1,7 @@
-# # Migración de Datos a MySQL (Baja California)
+# Migración de Datos a MySQL (Baja California)
 
 ## Descripción
-Migrar datos relacionados con la distribución geográfica de las Unidades Económicas en el territorio estatal de Baja California a una base de datos MySQL. La información incluye datos geográficos, actividades económicas, contactos y más, proporcionando un contexto sobre las unidades económicas del estado.
+Migrar datos relacionados con la distribución geográfica de las Unidades Económicas en estado de Baja California a una base de datos MySQL. La información incluye datos geográficos, actividades económicas, contactos y más, proporcionando un contexto sobre las unidades económicas del estado.
 
 ### Archivos incluidos
 
